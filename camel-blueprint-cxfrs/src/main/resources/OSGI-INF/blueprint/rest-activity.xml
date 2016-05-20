@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cxf="http://camel.apache.org/schema/blueprint/cxf"
+	xsi:schemaLocation="
+             http://www.osgi.org/xmlns/blueprint/v1.0.0 https://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
+             http://camel.apache.org/schema/blueprint/cxf http://camel.apache.org/schema/cxf/camel-cxf.xsd
+             http://camel.apache.org/schema/blueprint http://camel.apache.org/schema/blueprint/camel-blueprint.xsd">
+
+	<!-- Mock Activity Service -->
+	<bean id="activityService" class="com.hq.poc.activity.service.MockActivityService"
+		init-method="setupMockData" />
+
+	<!-- JSON support -->
+	<bean id="jsonProvider" class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider" />
+
+	<!-- CXF-RS server setup -->
+	<cxf:rsServer id="restServer" address="http://localhost:8080"
+		serviceClass="com.hq.poc.activity.api.RestActivityService">
+		<cxf:providers>
+			<ref component-id="jsonProvider" />
+		</cxf:providers>
+	</cxf:rsServer>
+
+	<camelContext id="activity"
+		xmlns="http://camel.apache.org/schema/blueprint">
+		<packageScan>
+			<package>com.hq.poc.activity.route</package>
+		</packageScan>
+		<route id="activityService-create">
+			<from uri="direct:createActivity" />
+			<bean ref="activityService" method="create" />
+		</route>
+		<route id="activityService-findById">
+			<from uri="direct:getActivity" />
+			<bean ref="activityService" method="findById(${header.id})" />
+		</route>
+		<route id="activityService-findAll">
+			<from uri="direct:getAllActivities" />
+			<bean ref="activityService" method="findAll" />
+		</route>
+		<route id="activityService-update">
+			<from uri="direct:updateActivity" />
+			<bean ref="activityService" method="update" />
+		</route>
+		<route id="activityService-delete">
+			<from uri="direct:cancelActivity" />
+			<bean ref="activityService" method="delete(${header.id})" />
+		</route>
+	</camelContext>
+
+</blueprint>
