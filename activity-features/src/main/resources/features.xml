@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<features name="${project.artifactId}-${project.version}"
+	xmlns="http://karaf.apache.org/xmlns/features/v1.0.0">
+	<repository>mvn:org.ops4j.pax.jdbc/pax-jdbc-features/0.8.0/xml/features</repository>
+	<repository>mvn:org.apache.camel.karaf/apache-camel/${camel.version}/xml/features</repository>
+	<repository>mvn:org.apache.cxf.karaf/apache-cxf/${cxf.version}/xml/features</repository>
+	<repository>mvn:io.hawt/hawtio-karaf/${hawtio.version}/xml/features</repository>
+
+	<feature name="activity-persistence" version="${project.version}" description="Horoquartz PoC - Activity persistence features">
+		<!-- Features dependencies -->
+		<feature>scr</feature>
+		<feature>transaction</feature>
+		<feature>pax-jdbc-config</feature>
+		<feature>pax-jdbc-h2</feature>
+		<feature>pax-jdbc-pool-dbcp2</feature>
+		<feature>jpa</feature>
+		<feature version="4.3.6.Final">hibernate</feature>
+
+		<!-- Bundle dependencies -->
+		<bundle>mvn:com.fasterxml.jackson.core/jackson-annotations/${jackson.version}</bundle>
+
+		<!-- Start the application bundles last after dependencies -->
+		<bundle start-level="90">mvn:${project.groupId}/activity-model/${project.version}</bundle>
+		<bundle start-level="90">mvn:${project.groupId}/activity-persistence/${project.version}</bundle>
+	</feature>
+
+	<feature name="activity-tst" version="${project.version}" description="Horoquartz PoC - Activity test servlet">
+		<!-- Features dependencies -->
+		<feature>activity-persistence</feature>
+		<feature>http-whiteboard</feature>
+
+		<!-- Start the test bundle last after dependencies -->
+		<bundle start-level="100">mvn:${project.groupId}/activity-tst/${project.version}</bundle>
+	</feature>
+
+	<feature name="${project.artifactId}" version="${project.version}" description="Horoquartz PoC - Activity application features">
+		<!-- Features dependencies -->
+		<feature>war</feature>
+		<feature version="${hawtio.version}">hawtio-offline</feature>
+		<feature version="${camel.version}">camel</feature>
+		<feature version="${camel.version}">camel-cxf</feature>
+		<feature version="${camel.version}">camel-jackson</feature>
+		<feature version="${cxf.version}">cxf-jaxrs</feature>
+		<feature version="${cxf.version}">cxf-http-jetty</feature>
+		<feature>activity-persistence</feature>
+
+		<!-- Bundle dependencies -->
+		<bundle>mvn:com.fasterxml.jackson.jaxrs/jackson-jaxrs-base/${jackson.version}</bundle>
+		<bundle>mvn:com.fasterxml.jackson.jaxrs/jackson-jaxrs-json-provider/${jackson.version}</bundle>
+
+		<!-- Start the application bundles last after dependencies -->
+		<bundle start-level="100">mvn:${project.groupId}/activity-api/${project.version}</bundle>
+	</feature>
+
+</features>
