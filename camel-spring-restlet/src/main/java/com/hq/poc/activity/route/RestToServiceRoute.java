@@ -34,7 +34,7 @@ public class RestToServiceRoute extends RouteBuilder {
         	.beanRef("activityService", "findById(${header.id})");
         
         from("direct:readAllActivity").id("activity-service-findAll")
-    		.beanRef("activityService", "findAll(${header.id})");
+    		.beanRef("activityService", "findAll()");
 
         from("direct:updateActivity").id("activity-service-update")
         	.beanRef("activityService", "update");

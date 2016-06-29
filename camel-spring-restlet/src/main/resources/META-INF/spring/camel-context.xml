@@ -8,7 +8,7 @@
 	<bean id="activityService" class="com.hq.poc.activity.service.MockActivityService"
 		scope="singleton" init-method="setupMockData" />
 
-	<camelContext xmlns="http://camel.apache.org/schema/spring">
+	<camelContext trace="true" xmlns="http://camel.apache.org/schema/spring">
 		<packageScan>
 			<package>com.hq.poc.activity.route</package>
 		</packageScan>

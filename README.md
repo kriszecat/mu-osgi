@@ -1,10 +1,19 @@
 # Guide utilisateur #
 ## Création du cluster ##
-Les features cellar et cellar-http-balancer sont configurés pour être installés dans chaque nouvelle instance (cf. etc/org.apache.karaf.features.cfg).
-
 Lancement du serveur karaf et ouverture d'une console cliente
 
     $KARAF_ROOT/bin/karaf 
+
+Installation du feature cellar qui va permettre la mise en cluster
+
+	karaf@root> feature:repo-add cellar
+    karaf@root> feature:install cellar
+
+Vérification de la bonne installtion
+
+    karaf@root> la|grep -i cellar
+    karaf@root> cluster:node-list
+    karaf@root> cluster:group-list
 
 Création de deux instances filles
 
@@ -14,8 +23,7 @@ Création de deux instances filles
     karaf@root> instance:start karaf#2
     karaf@root> instance:list
 
-    karaf@root> cluster:node-list
-    karaf@root> cluster:group-list
+Connection aux instances via ssh puis installation de cellar sur ces instances (cf. ci-dessus). 
     
 ## Mise en place de la console de supervision sur tous les noeuds du cluster ##
 Installation du serveur HTTP sur tous les noeuds du cluster

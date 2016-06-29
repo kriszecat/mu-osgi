@@ -75,7 +75,8 @@ feature:install activity-features
 ```
 
 ## Use REST API
-curl http://localhost:8080/activities/
-curl -i -X POST -H "Content-Type: application/json" -d '{"name":"poc-hq-dev", "duration":0.25, "employeeId":111007}' http://localhost:8080/activities/
-curl -i -X POST -H "Content-Type: application/json" -d '{"name":"poc-hq-tst", "duration":0.80, "employeeId":111007}' http://localhost:8080/activities/
-curl -i -X PUT -H "Content-Type: application/json" -d '{"fkey":"2", "name":"poc-hq-tst", "duration":1.25, "employeeId":111007}' http://localhost:8080/activities/
+    curl http://localhost:8080/activities/
+    curl -i -X POST -H "Content-Type: application/json" -d '{"name":"poc-hq-dev", "duration":7.25, "employeeId":111007}' http://localhost:8080/activities/
+    curl -i -X POST -H "Content-Type: application/json" -d '{"name":"poc-hq-tst", "duration":0.80, "employeeId":111007}' http://localhost:8080/activities/
+    curl -i -X PUT -H "Content-Type: application/json" -d '{"fkey":"2", "name":"poc-hq-tst", "duration":1.25, "employeeId":111007}' http://localhost:8080/activities/
+    curl -i -X DELETE --header "Accept: application/json" http://localhost:8080/activities/2
